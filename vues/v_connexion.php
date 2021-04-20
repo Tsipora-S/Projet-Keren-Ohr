@@ -11,7 +11,7 @@
 
 ?>
 <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3" style="width: auto;margin-left: auto;margin-right: auto;">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Identification utilisateur</h3>

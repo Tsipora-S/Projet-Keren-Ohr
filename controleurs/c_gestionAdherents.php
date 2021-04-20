@@ -32,7 +32,7 @@ switch ($action) {
         $dateAdher= date('d/m/Y');
         $cat= filter_input(INPUT_POST, 'lstCategorie',FILTER_SANITIZE_STRING);
         $login=$nom;
-        $mdp=$nom.random(111,999);       
+        $mdp=$nom.rand(111,999);       
         var_dump($nom,$prenom,$login,$mdp,$adresse,$cp,$ville,$email,$telFixe,$telPort,$dateAdher,$cat);
         if($pdo->insertInfosNouvelAdherent($nom,$prenom,$adresse,$cp,$ville,$email,$telFixe,$telPort,$dateAdher,$cat)){
             $message='Le nouvel adhérent a bien été ajouté!';
@@ -43,6 +43,7 @@ switch ($action) {
     case 'consulterListe':
         $lesBeneficiaires=$pdo->getLesAdherents();
         $lesCles1=array_keys($lesBeneficiaires);
+        $lesCategories=$pdo->getLesCategories(); 
         include 'vues/v_consulterListe.php';
         break;
     case 'modifierItem':

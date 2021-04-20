@@ -10,6 +10,6 @@
  */
 ?>
 <h2>Votre prochaine activité:</h2>
-<label><?php echo $activite?></label>
+<label><?php echo $activiteSuivante?></label>
 
 

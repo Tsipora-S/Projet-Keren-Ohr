@@ -41,6 +41,7 @@
             $telFixe = $unBeneficiaire['telFixe'];
             $dateAdher = $unBeneficiaire['dateAdher'];
             $cat = $unBeneficiaire['idCategorie'];
+            var_dump($cat);
             ?>
             
             
@@ -54,7 +55,25 @@
                     <td><input name="telPort" type="text" id="telPort" class="form-control" value="<?php echo $telPort ?>"></td>
                     <td><input name="telFixe" type="text" id="telFixe" class="form-control" value="<?php echo $telFixe ?>"></td>
                     <td><input name="dateAdher" type="text" id="dateAdher" class="form-control" value="<?php echo $dateAdher ?>"></td>
-                    <td><input name="cat" type="text" id="cat" class="form-control" value="<?php echo $cat ?>"></td>
+                    <td><select id="lstCategorie" name="lstCategorie" class="form-control">
+                            <?php
+                            foreach ($lesCategories as $uneCat) {
+                                $id = $uneCat['id'];
+                                $libelle = $uneCat['libelle'];
+                                if ($uneCat == $cat) {
+                            ?>
+                            <option selected value="<?php echo $cat ?>">
+                                <?php echo $libelle ?> </option>
+                            <?php
+                            } else {
+                            ?>
+                            <option value="<?php echo $cat ?>">
+                                <?php echo $libelle ?> </option>
+                            <?php
+                        }
+                            }
+                            ?> 
+                        </select></td>
                     <td><input name="idBeneficiaire" type="hidden" id="idBeneficiaire" class="form-control" value="<?php echo $id ?>"></td>
                     <td><button class="btn btn-success" type="edit" name="corriger" value="corriger">Corriger</button>
                         <button class="btn btn-danger" type="reset">Reinitialiser</button>

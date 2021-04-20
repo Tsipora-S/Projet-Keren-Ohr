@@ -15,8 +15,7 @@ if (!$uc) {
 }
 switch ($action) {
     case 'infos':  
-        $infosAdherent = $pdo->getLesInfosAdherent($idAdherent);
-        var_dump($infosAdherent);
+        $infosAdherent = $pdo->getInformationsAdherent($idAdherent);
         $nom= $infosAdherent['nom'];
         $prenom= $infosAdherent['prenom'];
         $adresse= $infosAdherent['adresse'];
@@ -28,12 +27,38 @@ switch ($action) {
         include 'vues/v_infosAdherent.php';
         break;
     case 'activites':   
-        $infosAdherent = $pdo->getLesInfosAdherent($idAdherent);
+        $infosAdherent = $pdo->getInformationsAdherent($idAdherent);
         $idCategorie = $infosAdherent['idcategorie'];
         $dateActuelle = date('d/m/Y');
-        var_dump($dateActuelle);
-        $activite=$pdo->getActiviteSuivante($idCategorie,$dateActuelle);
+        $activiteSuivante=$pdo->getActiviteSuivante($idCategorie,$dateActuelle);
+        var_dump($activiteSuivante);
+        $mois=getMois($dateActuelle);
+        var_dump($mois);
+        $lesMois = getLesSixMoisSuivants($mois);
+        $lesCles=array_keys($lesMois);
+        $moisASelectionner=$lesCles[0];
+        include 'vues/v_listeMois.php';
         include 'vues/v_activitesAdherent.php';
+        break;
+    case 'afficherActivitesDeMoisChoisi':
+        $moisChoisi= filter_input(INPUT_POST, 'lstMois',FILTER_SANITIZE_STRING);
+        var_dump($moisChoisi);
+        $mois=getMois(date('d/m/Y'));
+        $lesMois = getLesSixMoisSuivants($mois);
+        $lesCles=array_keys($lesMois);
+        $moisASelectionner=$lesCles[0];
+        $activitesPrCeMois=$pdo->getActivites($moisChoisi);
+        var_dump($activitesPrCeMois);
+        if(!$activitesPrCeMois){
+            ajouterErreur("Pas d'activités pour le mois séléctionné");
+            include 'vues/v_erreurs.php';
+            include 'vues/v_listeMois.php';
+        }
+        else{
+            ?>
+            <h5><?php echo $activitesPrCeMois['libelle'].": ".$activitesPrCeMois['etat'];?></h5>
+            <?php
+        }
         break;
 }
 

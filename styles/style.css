@@ -1,3 +1,19 @@
 ul li a{
-    border-color:#cfad67;
+    background-color: #cfad67;
+}
+#accueil{
+    text-align: center;
+    color:red; /*pr tester si style.css est bien relié ac v_entete.php, or là il n'y arrive pas*/
+}
+.btn-success{
+    background-color: #bb9b5e;
+    border-color:#bb9b5e;
+}
+.btn-success:hover,:focus,:active{
+    background-color: #ddd3b5;
+    color: black;
+}
+.btn-primary{
+    background-color: #6d5000;
+    border-color:#6d5000;
 }

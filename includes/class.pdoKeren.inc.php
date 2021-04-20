@@ -56,10 +56,10 @@ class PdoKeren
     }
     
     /**
-     * Retourne les informations d'un admin
+     * Récupère les informations d'un admin
      *
-     * @param String $login Login de l'admin
-     * @param String $mdp   Mot de passe de l'admin
+     * @param String $login  Login de l'admin
+     * @param String $mdp    Mot de passe de l'admin
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
@@ -78,12 +78,12 @@ class PdoKeren
     }
     
     /**
-     * Retourne les informations d'un adhérent
+     * Récupère les informations d'un adhérent pour sa connexion
      *
-     * @param String $login Login de l'adhérent
-     * @param String $mdp   Mot de passe de l'adhérent
+     * @param String $login  Login de l'adhérent
+     * @param String $mdp    Mot de passe de l'adhérent
      *
-     * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
+     * @return l'id, le nom et le prénom sous forme d'un tableau associatif
      */
     public function getInfosAdherent($login, $mdp)
     {
@@ -100,8 +100,9 @@ class PdoKeren
     }
     
     /**
-     * Retourne la liste de tous les adherents.
-     * @return array        la liste de tous les adherents sous forme de tableau associatif.
+     * Récupère la liste de tous les adherents.
+     * 
+     * @return Array        La liste de tous les adherents sous forme de tableau associatif.
      */
     public function getLesAdherents()
     {
@@ -115,8 +116,9 @@ class PdoKeren
     }
     
     /**
-     * Retourne la liste des catégories de personnes nécessiteuses
-     * @return array        la liste des categories sous forme de tableau associatif.
+     * Récupère la liste des catégories de personnes nécessiteuses
+     * 
+     * @return Array        La liste des categories sous forme de tableau associatif.
      */
     public function getLesCategories()
     {
@@ -127,21 +129,26 @@ class PdoKeren
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
     }
+    
     /**
      * Insert dans la bdd les infos de l'adhérent ajouté 
      * 
-     * @param char $nom
-     * @param char $prenom
-     * @param char $adresse
-     * @param char $telFixe
-     * @param char $telPort
-     * @param char $dateadher
-     * @param char $cat
+     * @param String $nom        Nom de l'adhérent        
+     * @param String $prenom     Prénom de l'adhérent
+     * @param String $adresse    Adresse de l'adhérent
+     * @param String $cp         Code postal de l'adhérent
+     * @param String $ville      Ville de l'adhérent
+     * @param String $email      E-mail de l'adhérent
+     * @param int $telFixe       Téléphone fixe de l'adhérent
+     * @param int $telPort       Téléphone portable de l'adhérent
+     * @param String $dateAdher  Date d'adhésion de l'adhérent
+     * @param String $cat        Catégorie de l'adhérent
      */
     public function insertInfosNouvelAdherent($nom,$prenom,$adresse,$cp,$ville,$email,$telFixe,$telPort,$dateAdher,$cat){
         $requetePrepare = PdoKeren::$monPdo->prepare(
             'INSERT INTO adherents'
-            . "VALUES(NULL,:unNom,:unPrenom,:uneAdresse,:unCP,:uneVille,:unEmail,:unTelFixe,:unTelPort,:uneDateAdhesion,:uneCat)"
+            . "VALUES(NULL,:unNom,:unPrenom,:uneAdresse,:unCP,:uneVille,:unEmail,"
+            . ":unTelFixe,:unTelPort,:uneDateAdhesion,:uneCat)"
         );
         $requetePrepare->bindParam(':unNom', $nom , PDO::PARAM_STR);
         $requetePrepare->bindParam(':unPrenom', $prenom , PDO::PARAM_STR);
@@ -159,34 +166,23 @@ class PdoKeren
         }else{
             echo "zut, echec d'insertion";
         }
-    }
+    }      
     
     /**
-     * Retourne le nom et le prenom du bénéficiaire
-     * @param string $idBeneficiaire   id du bénéficiaire
-     * @return array                   tableau contenant nom et prenom de l'eleve.    
+     * Met à jour les coordonnées d'un bénéficiaire donné
+     * 
+     * @param int $idBeneficiaire  ID du bénéficiaire
+     * @param String $nom          Nom du bénéficiaire
+     * @param String $prenom       Prénom du bénéficiaire
+     * @param String $adresse      Adresse du bénéficiaire
+     * @param String $cp           Code postal du bénéficiaire
+     * @param String $ville        Ville du bénéficiaire
+     * @param String $email        E-mail du bénéficiaire
+     * @param int $telPort         Téléphone portable du bénéficiaire
+     * @param int $telFixe         Téléphone fixe du bénéficiaire
+     * @param String $dateAdher    Date d'adhésion du bénéficiaire
+     * @param String $cat          Catégorie du bénéficiaire
      */
-    public function getNomBeneficiaire($idBeneficiaire){
-        $requetePrepare = PdoKeren::$monPdo->prepare(
-            'SELECT adherents.nom ,adherents.prenom '
-            . 'FROM adherents '
-            . 'WHERE adherents.id=:unId '   
-        );
-        $requetePrepare->bindParam(':unId', $idBeneficiaire , PDO::PARAM_STR);
-        $requetePrepare->execute();
-        return $requetePrepare->fetch();
-    }        
-    
-    /*public function getInfosDonateur($idDonateur){
-        $requetePrepare = PdoKeren::$monPdo->prepare(
-            'SELECT *'
-            . 'FROM donateur'
-            . 'WHERE id=:unId'
-        );
-        $requetePrepare->bindParam(':unId', $idDonateur , PDO::PARAM_STR);
-        $requetePrepare->execute();
-        return $requetePrepare->fetch();
-    }*/
     public function majCoordonneesBeneficiaire($idBeneficiaire,$nom,$prenom,$adresse,$cp,$ville,$email,$telPort,$telFixe,$dateAdher,$cat){
         $requetePrepare = PdoKeren::$monPdo->prepare(
             'UPDATE adherents'
@@ -209,17 +205,11 @@ class PdoKeren
         $requetePrepare->execute();
     }
     
-   /* public function getAdresseCPVille($idBeneficiaire){
-        $requetePrepare = PdoKeren::$monPdo->prepare(
-            'SELECT adresse,cp,ville'
-            . 'FROM adherents'
-            . 'WHERE id=:unId'
-        );
-        $requetePrepare->bindParam(':unId', $idBeneficiaire , PDO::PARAM_STR);
-        $requetePrepare->execute();
-        return $requetePrepare->fetchAll();
-    }*/
-    
+    /**
+     * Récupère la liste des lieux de vacances disponibles
+     * 
+     * @return Array    La liste des lieux sous forme de tableau associatif
+     */
     public function getLieuxVacs(){
         $requetePrepare = PdoKeren::$monPdo->prepare(
             'SELECT *'
@@ -229,44 +219,99 @@ class PdoKeren
         return $requetePrepare->fetchAll();
     }
     
+    /**
+     * Insert une nouvelle activité dans la bdd
+     * 
+     * @param String $libelle   Libellé de l'activité
+     * @param String $date      Date de l'activité
+     * @param String $cat       Catégorie de l'activité
+     */
     public function insertActivite($libelle,$date,$cat){
+        $dateEn=dateFrancaisVersAnglais($date);
         $requetePrepare = PdoKeren::$monPdo->prepare(
             'INSERT INTO activites'
             . 'VALUES(NULL,:unLibelle,:uneDate,(select id from categorie where libelle = :uneCat))'
         );
         $requetePrepare->bindParam(':unLibelle', $libelle , PDO::PARAM_STR);
-        $requetePrepare->bindParam(':uneDate', $date , PDO::PARAM_STR);
+        $requetePrepare->bindParam(':uneDate', $dateEn , PDO::PARAM_STR);
         $requetePrepare->bindParam(':uneCat', $cat , PDO::PARAM_STR);
         $requetePrepare->execute();
     }
     
-    public function getLesInfosAdherent($idAdherent){
+    /**
+    * Récupère toutes les informations d'un adhérent donné
+    * 
+    * @param int $id  ID de l'adhérent connecté
+    * @return les differentes infos sous forme de tableau
+    */
+    public function getInformationsAdherent($id){
         $requetePrepare = PdoKeren::$monPdo->prepare(
-            'SELECT nom as nom, prenom as prenom, adresse as adresse, cp as cp, '
-            . 'ville as ville,email as email, telFixe as telFixe, telPort as telPort, idcategorie as idcategorie '
-            . 'FROM adherents'   
-            . 'WHERE id= :unId'
-        );
-        $requetePrepare->bindParam(':unId', $idAdherent , PDO::PARAM_INT);
-        if($requetePrepare->execute()){
-            echo 'bien';
-        }else{
-            echo 'pas bien';
-        }
+                'SELECT nom,prenom,adresse,cp,ville,email,telFixe,telPort,idcategorie'
+                . ' FROM adherents'
+                . ' WHERE id= :unId'
+                );
+        $requetePrepare->bindParam(':unId', $id , PDO::PARAM_INT);
+        $requetePrepare->execute();
         $laLigne = $requetePrepare->fetch();
         return $laLigne;
-    }  
+    }
     
+    /**
+     * Récupère l'activité dont la date est postérieure à la date actuelle 
+     * et en fonction de la catégorie de l'adhérent connecté
+     * 
+     * @param int $idCategorie      ID de la catégorie
+     * @param String $dateActuelle  La date actuelle
+     * @return l'activité suivante 
+     */
     public function getActiviteSuivante($idCategorie,$dateActuelle){
+        $dateColle=@list($jour, $mois, $annee) = explode('/', $dateActuelle);       
         $requetePrepare = PdoKeren::$monPdo->prepare(
             'SELECT libelle'
-            .'FROM activites'
-            .'WHERE idcategorie= :unIdCategorie '
-            .'AND date > :laDateActuelle'    
-                );
+            .' FROM activites'
+            .' WHERE idcategorie= :unIdCategorie '
+            ." AND substr(date,0,2) > $jour"   
+            ." AND substr(date,2,2)= $mois"
+            ." AND substr(date,4,4)= $annee"    
+            );
         $requetePrepare->bindParam(':unIdCategorie', $idCategorie , PDO::PARAM_STR);
         $requetePrepare->bindParam(':laDateActuelle', $dateActuelle , PDO::PARAM_STR);
+        var_dump($jour,$mois,$annee,$dateColle);
         $requetePrepare->execute();
-        $requetePrepare->fetchAll();
+        return $requetePrepare->fetch();
+    }
+    
+    /**
+     * Récupère la liste des activités pour un mois donné
+     * 
+     * @param int $moisChoisi   Mois sélectionné
+     * @return Array            Les activités sous forme de tableau associatif
+     */
+    public function getActivites($moisChoisi){
+        $moisChoisi="'".$moisChoisi."%";
+        $requetePrepare = PdoKeren::$monPdo->prepare(
+            'SELECT libelle as libelle, etat as etat'
+            .'FROM activites '
+            ."WHERE date LIKE $moisChoisi"
+                );
+        //$requetePrepare->bindParam(':leMoisChoisi', $moisChoisi , PDO::PARAM_STR);
+        if($requetePrepare->execute()){
+            echo 'succes';
+        }else {
+            echo "erreur";
+            print_r($requetePrepare->errorInfo());
+        }
+        return $requetePrepare->fetchAll();
+    }
+    
+    public function getNomLieu($idLieu){
+        $requetePrepare = PdoKeren::$monPdo->prepare(
+                'SELECT nom'
+                . ' FROM lieuxvacs'
+                . ' WHERE id= :unId'
+                );
+        $requetePrepare->bindParam(':unId', $idLieu , PDO::PARAM_INT);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
     }
 }

@@ -1,13 +1,12 @@
 <?php
 /**
- * Fonctions pour l'application Euroforma
+ * Fonctions pour l'application PHP Keren-Ohr
  *
  * PHP Version 7
  *
- * @category  Stages 2eme année
- * @package   Euroforma
+ * @category  Projet bachelor developpeur web
+ * @package   Keren Ohr
  * @author    Tsipora Schvarcz
- * @author    Beth Sefer
  */
 
 /**
@@ -17,7 +16,7 @@
  */
 function estConnecte()
 {
-    return isset($_SESSION['idUtilisateur']);//isset: question: Est qu il y a un IdUtilisateur dans la SuperGlobable ?(vrai ou faux?)
+    return isset($_SESSION['idUtilisateur']);
 }
 function estAdminConnecte()
 {
@@ -35,7 +34,7 @@ function estAdherentConnecte()
 /**
 * Ajoute le libellé d'une erreur au tableau des erreurs
 *
-* @param String $msg Libellé de l'erreur
+* @param String $msg    Libellé de l'erreur
 *
 * @return null
 */
@@ -79,16 +78,16 @@ function deconnecter()
 function getMois($date)
 {
     @list($jour, $mois, $annee) = explode('/', $date);
-    unset($jour);//retire la variable jour pour obtenir le mois et l'année.
-    if (strlen($mois) == 1) {//strlen=verifie le nombre de caractères. Ex:si mois=6, on va mettre 06.
+    unset($jour);
+    if (strlen($mois) == 1) {
         $mois = '0' . $mois;
     }
-    return $mois."/".$annee;
+    return $annee . $mois;
 }
 function getDateAc($date)
 {
     @list($jour, $mois, $annee) = explode('/', $date);
-    if (strlen($mois) == 1) {//strlen=verifie le nombre de caractères. Ex:si mois=6, on va mettre 06.
+    if (strlen($mois) == 1) {
         $mois = '0' . $mois;
     }
     return $jour."/".$mois."/".$annee;
@@ -135,4 +134,61 @@ function cal($month , $year , $lang , $type){
       return $l; 
       
      } 
+    }    
+
+/**
+ * Fonction qui retourne le mois suivant un mois passé en paramètre
+ *
+ * @param String $mois Contient le mois à utiliser
+ *
+ * @return String le mois d'après
+ */
+function getMoisSuivant($mois)
+{
+    $numAnnee = substr($mois, 0, 4);
+    $numMois = substr($mois, 4, 2);
+    if ($numMois == '12') {
+        $numMois = '01';
+        $numAnnee++;
+    } else {
+        $numMois++;
     }
+    if (strlen($numMois) == 1) {
+        $numMois = '0' . $numMois;
+    }
+    return $numAnnee . $numMois;
+}
+/**
+ * Fonction qui retourne les 6 mois suivants le mois actuel
+ * 
+ * @param String $mois   Contient le mois à utiliser
+ * @return String        Les 6 mois d'après
+ */
+function getLesSixMoisSuivants($mois){
+    $lesMois= array();
+    for ($k=0;$k<=5;$k++){
+        $mois= getMoisSuivant($mois);
+        $numAnnee = substr($mois,0,4);
+        $numMois = substr($mois,4,2);
+        $lesMois [] = array(
+            'mois'=>$mois,
+            'numMois'=> $numMois,
+            'numAnnee'=> $numAnnee
+        );
+    }
+    return $lesMois;
+}
+/**
+* Transforme une date au format français jj/mm/aaaa vers le format anglais
+* aaaa-mm-jj
+*
+* @param String $maDate au format  jj/mm/aaaa
+*
+* @return Date au format anglais aaaa-mm-jj
+*/
+function dateFrancaisVersAnglais($maDate)
+{
+    @list($jour, $mois, $annee) = explode('/', $maDate);
+    return date('Ymd', mktime(0, 0, 0, $mois, $jour, $annee));
+}
+    
