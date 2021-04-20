@@ -33,11 +33,9 @@ switch ($action) {
         $cat= filter_input(INPUT_POST, 'lstCategorie',FILTER_SANITIZE_STRING);
         $login=$nom;
         $mdp=$nom.rand(111,999);       
-        var_dump($nom,$prenom,$login,$mdp,$adresse,$cp,$ville,$email,$telFixe,$telPort,$dateAdher,$cat);
-        if($pdo->insertInfosNouvelAdherent($nom,$prenom,$adresse,$cp,$ville,$email,$telFixe,$telPort,$dateAdher,$cat)){
-            $message='Le nouvel adhérent a bien été ajouté!';
-            include 'vues/v_msgSucces.php';
-        }
+        $pdo->insertInfosNouvelAdherent($nom,$prenom,$login,$mdp,$adresse,$cp,$ville,$email,$telFixe,$telPort,$dateAdher,$cat);
+        $message='Le nouvel adhérent a bien été ajouté!';
+        include 'vues/v_msgSucces.php';
         include 'includes/class.mail.php';
         break;
     case 'consulterListe':

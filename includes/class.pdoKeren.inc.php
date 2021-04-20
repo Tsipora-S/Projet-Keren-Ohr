@@ -135,6 +135,8 @@ class PdoKeren
      * 
      * @param String $nom        Nom de l'adhérent        
      * @param String $prenom     Prénom de l'adhérent
+     * @param String $login      Login de l'adhérent
+     * @param String $mdp        Mot de passe de l'adhérent
      * @param String $adresse    Adresse de l'adhérent
      * @param String $cp         Code postal de l'adhérent
      * @param String $ville      Ville de l'adhérent
@@ -144,14 +146,16 @@ class PdoKeren
      * @param String $dateAdher  Date d'adhésion de l'adhérent
      * @param String $cat        Catégorie de l'adhérent
      */
-    public function insertInfosNouvelAdherent($nom,$prenom,$adresse,$cp,$ville,$email,$telFixe,$telPort,$dateAdher,$cat){
+    public function insertInfosNouvelAdherent($nom,$prenom,$login,$mdp,$adresse,$cp,$ville,$email,$telFixe,$telPort,$dateAdher,$cat){
         $requetePrepare = PdoKeren::$monPdo->prepare(
             'INSERT INTO adherents'
-            . "VALUES(NULL,:unNom,:unPrenom,:uneAdresse,:unCP,:uneVille,:unEmail,"
-            . ":unTelFixe,:unTelPort,:uneDateAdhesion,:uneCat)"
+            . " VALUES(NULL,:unNom,:unPrenom,:unLogin,:unMdp,:uneAdresse,:unCP,:uneVille,:unEmail,"
+            . " :unTelFixe,:unTelPort,:uneDateAdhesion,:uneCat)"
         );
         $requetePrepare->bindParam(':unNom', $nom , PDO::PARAM_STR);
         $requetePrepare->bindParam(':unPrenom', $prenom , PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unLogin', $login , PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMdp', $mdp , PDO::PARAM_STR);
         $requetePrepare->bindParam(':uneAdresse', $adresse , PDO::PARAM_STR);
         $requetePrepare->bindParam(':unCP', $cp , PDO::PARAM_INT);
         $requetePrepare->bindParam(':uneVille', $ville , PDO::PARAM_STR);
@@ -161,11 +165,6 @@ class PdoKeren
         $requetePrepare->bindParam(':uneDateAdhesion', $dateAdher , PDO::PARAM_STR);
         $requetePrepare->bindParam(':uneCat', $cat , PDO::PARAM_STR);
         $requetePrepare->execute();
-        if($requetePrepare->execute()){
-            echo "bien, ligne insérée";
-        }else{
-            echo "zut, echec d'insertion";
-        }
     }      
     
     /**

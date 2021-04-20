@@ -3,7 +3,7 @@ ul li a{
 }
 #accueil{
     text-align: center;
-    color:red; /*pr tester si style.css est bien relié ac v_entete.php, or là il n'y arrive pas*/
+    /*color:red; /*pr tester si style.css est bien relié ac v_entete.php, or là il n'y arrive pas*/
 }
 .btn-success{
     background-color: #bb9b5e;

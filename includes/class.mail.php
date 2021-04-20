@@ -11,15 +11,14 @@
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-$nomBeneficiaire = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
+$nomBeneficiaire = $nom.' '.$prenom;
 $from = "tmaof55@gmail.com";
-$to = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+$to = $email;
 $filename = "bienvenue.pdf";
 $fichier = 'C:\wamp64\www\Keren-Ohr\documents\/' . $filename;
 $subject = $nomBeneficiaire . ", bienvenue dans notre association!";
-$login = $nomBeneficiaire;
 $message = "Bienvenue! Voici votre identifiant et mot de passe pour "
-        . "votre connexion à la plateforme de l'association: " . '<br>' . "Identifiant: " . $login . '<br>' . "Mot de passe: " . $mdp;
+        . "votre connexion à la plateforme de l'association:  Identifiant: " . $login . "Mot de passe: " . $mdp;
 $headers = "From:" . $from;
 $boundary = "_" . md5(uniqid(rand()));
 $contenu = file_get_contents($fichier); //file name ie: ./image.jpg

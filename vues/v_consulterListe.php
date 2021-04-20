@@ -10,40 +10,39 @@
  */
 ?>
 <form method="post" 
-                  accept-charset=""action="index.php?uc=gestionAdherents&action=modifierItem" 
-                  accesskey=""role="form">
-<div class="panel panel-info">
-    <h3>Liste des adhérents</h3>
-    <table class="table table-bordered table-responsive">
-        <tr>
-            <th class='nom'>Nom</th>
-            <th class='prenom'>Prenom</th>
-            <th class='adresse'>Adresse</th>
-            <th class='cp'>Code postal</th>
-            <th class='ville'>Ville</th>
-            <th class='email'>Email</th>
-            <th class='telPort'>Telephone Portable</th>
-            <th class='telFixe'>Telephone Fixe</th>
-            <th class='dateAdher'>Date d'adhésion</th>
-            <th class='cat'>Catégorie</th>
-            <th></th>
-        </tr>
-        <?php
-        foreach ($lesBeneficiaires as $unBeneficiaire) {
-            $id = $unBeneficiaire['id'];
-            $nom = $unBeneficiaire['nom'];
-            $prenom = $unBeneficiaire['prenom'];
-            $adresse = $unBeneficiaire['adresse'];
-            $cp = $unBeneficiaire['cp'];
-            $ville = $unBeneficiaire['ville'];
-            $email = $unBeneficiaire['email'];
-            $telPort = $unBeneficiaire['telPort'];
-            $telFixe = $unBeneficiaire['telFixe'];
-            $dateAdher = $unBeneficiaire['dateAdher'];
-            $cat = $unBeneficiaire['idCategorie'];
-            var_dump($cat);
-            ?>
-            
+      accept-charset=""action="index.php?uc=gestionAdherents&action=modifierItem" 
+      accesskey=""role="form">
+    <div class="panel panel-info">
+        <h3>Liste des adhérents</h3>
+        <table class="table table-bordered table-responsive">
+            <tr>
+                <th class='nom'>Nom</th>
+                <th class='prenom'>Prenom</th>
+                <th class='adresse'>Adresse</th>
+                <th class='cp'>Code postal</th>
+                <th class='ville'>Ville</th>
+                <th class='email'>Email</th>
+                <th class='telPort'>Telephone Portable</th>
+                <th class='telFixe'>Telephone Fixe</th>
+                <th class='dateAdher'>Date d'adhésion</th>
+                <th class='cat'>Catégorie</th>
+                <th></th>
+            </tr>
+            <?php
+            foreach ($lesBeneficiaires as $unBeneficiaire) {
+                $id = $unBeneficiaire['id'];
+                $nom = $unBeneficiaire['nom'];
+                $prenom = $unBeneficiaire['prenom'];
+                $adresse = $unBeneficiaire['adresse'];
+                $cp = $unBeneficiaire['cp'];
+                $ville = $unBeneficiaire['ville'];
+                $email = $unBeneficiaire['email'];
+                $telPort = $unBeneficiaire['telPort'];
+                $telFixe = $unBeneficiaire['telFixe'];
+                $dateAdher = $unBeneficiaire['dateAdher'];
+                $cat = $unBeneficiaire['idCategorie'];
+                var_dump($cat);
+                ?>
             
                 <tr>
                     <td><input name="nom" type="text" id="nom" class="form-control" value="<?php echo $nom ?>"></td>
@@ -61,16 +60,16 @@
                                 $id = $uneCat['id'];
                                 $libelle = $uneCat['libelle'];
                                 if ($uneCat == $cat) {
-                            ?>
-                            <option selected value="<?php echo $cat ?>">
-                                <?php echo $libelle ?> </option>
-                            <?php
-                            } else {
-                            ?>
-                            <option value="<?php echo $cat ?>">
-                                <?php echo $libelle ?> </option>
-                            <?php
-                        }
+                                    ?>
+                                    <option selected value="<?php echo $uneCat ?>">
+                                        <?php echo $libelle ?> </option>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <option value="<?php echo $id ?>">
+                                        <?php echo $libelle ?> </option>
+                                    <?php
+                                }
                             }
                             ?> 
                         </select></td>
@@ -79,9 +78,9 @@
                         <button class="btn btn-danger" type="reset">Reinitialiser</button>
                     </td>              
                 </tr>
-            </form>
-        <?php
-        }
-        ?>
-    </table>
-</div>
+                <?php
+            }
+            ?>
+        </table>
+    </div>
+</form>
