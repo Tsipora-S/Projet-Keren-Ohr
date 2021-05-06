@@ -46,6 +46,9 @@ switch ($action) {
         break;
     case 'modifierItem':
         $idBeneficiaire = filter_input(INPUT_POST, 'idBeneficiaire',FILTER_SANITIZE_STRING);
+        $lesBeneficiaires=$pdo->getLesAdherents();
+        $lesCles1=array_keys($lesBeneficiaires);
+        $lesCategories=$pdo->getLesCategories(); 
         $nom = filter_input(INPUT_POST, 'nom',FILTER_SANITIZE_STRING);
         $prenom = filter_input(INPUT_POST, 'prenom',FILTER_SANITIZE_STRING);
         $adresse = filter_input(INPUT_POST, 'adresse',FILTER_SANITIZE_STRING);
@@ -55,8 +58,7 @@ switch ($action) {
         $telPort = filter_input(INPUT_POST, 'telPort',FILTER_SANITIZE_STRING);
         $telFixe = filter_input(INPUT_POST, 'telFixe',FILTER_SANITIZE_STRING);
         $dateAdher = filter_input(INPUT_POST, 'dateAdher',FILTER_SANITIZE_STRING);
-        $cat = filter_input(INPUT_POST, 'cat',FILTER_SANITIZE_STRING);
-        var_dump($idBeneficiaire,$nom,$prenom,$adresse,$cp,$ville,$email,$telPort,$telFixe,$dateAdher,$cat);
+        $cat = filter_input(INPUT_POST, 'lstCategorie',FILTER_SANITIZE_STRING);
         if($pdo->majCoordonneesBeneficiaire($idBeneficiaire,$nom,$prenom,$adresse,$cp,$ville,$email,$telPort,$telFixe,$dateAdher,$cat)){
             $message="La modification a bien été prise en compte";
             include 'vues/v_msgSucces.php';

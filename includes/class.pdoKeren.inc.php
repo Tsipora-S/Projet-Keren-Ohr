@@ -185,10 +185,10 @@ class PdoKeren
     public function majCoordonneesBeneficiaire($idBeneficiaire,$nom,$prenom,$adresse,$cp,$ville,$email,$telPort,$telFixe,$dateAdher,$cat){
         $requetePrepare = PdoKeren::$monPdo->prepare(
             'UPDATE adherents'
-            . 'SET nom = :unNom, prenom = :unPrenom, adresse = :uneAdresse, cp = :unCP, '
-            . 'ville = :uneVille, email = :unEmail, telPort= :unTelPort, telFixe = :unTelFixe, '
-            . 'dateAdher = :uneDateAdher, idCategorie = :uneCat'
-            . 'WHERE id = :unId'
+            . ' SET nom = :unNom, prenom = :unPrenom, adresse = :uneAdresse, cp = :unCP, '
+            . ' ville = :uneVille, email = :unEmail, telPort= :unTelPort, telFixe = :unTelFixe, '
+            . ' dateAdher = :uneDateAdher, idCategorie = :uneCat'
+            . ' WHERE id = :unId'
         );
         $requetePrepare->bindParam(':unId', $idBeneficiaire , PDO::PARAM_INT);
         $requetePrepare->bindParam(':unNom', $nom , PDO::PARAM_STR);
@@ -201,7 +201,9 @@ class PdoKeren
         $requetePrepare->bindParam(':unTelFixe', $telFixe , PDO::PARAM_INT);
         $requetePrepare->bindParam(':uneDateAdher', $dateAdher , PDO::PARAM_STR);
         $requetePrepare->bindParam(':uneCat', $cat , PDO::PARAM_STR);
-        $requetePrepare->execute();
+        if($requetePrepare->execute()){
+            echo 'succes';
+        }else echo 'erreur';
     }
     
     /**
@@ -227,14 +229,22 @@ class PdoKeren
      */
     public function insertActivite($libelle,$date,$cat){
         $dateEn=dateFrancaisVersAnglais($date);
+        $dateColle=@list($jour, $mois, $annee) = explode('/', $date);       
+        if((substr($date,0,2) > $jour && (substr($date,2,2) == $mois)) || ((substr($date,2,2) >= $mois ))
+           && (substr($date,4,4) >= $annee)){
+            $etat='Prévue';
+        }else{
+            $etat='Terminée';
+        }
         $requetePrepare = PdoKeren::$monPdo->prepare(
             'INSERT INTO activites'
-            . 'VALUES(NULL,:unLibelle,:uneDate,(select id from categorie where libelle = :uneCat))'
+            . ' VALUES(NULL,:unLibelle,:uneDate,:unEtat,:uneCat)'
         );
         $requetePrepare->bindParam(':unLibelle', $libelle , PDO::PARAM_STR);
         $requetePrepare->bindParam(':uneDate', $dateEn , PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unEtat', $etat , PDO::PARAM_STR);
         $requetePrepare->bindParam(':uneCat', $cat , PDO::PARAM_STR);
-        $requetePrepare->execute();
+        $requetePrepare->execute();   
     }
     
     /**

@@ -25,9 +25,8 @@ switch ($action) {
         $libelle= filter_input(INPUT_POST, 'libelle',FILTER_SANITIZE_STRING);
         $date= filter_input(INPUT_POST, 'date',FILTER_SANITIZE_STRING);
         $cat= filter_input(INPUT_POST, 'lstCategorie',FILTER_SANITIZE_STRING);
-        if($pdo->insertActivite($libelle,$date,$cat)){
-            echo "L'activité a bien été ajoutée.";
-        }
+        $pdo->insertActivite($libelle,$date,$cat);
+        echo "L'activité a bien été ajoutée.";
         include 'vues/v_gestionActivites.php';
         break;
     case 'afficherPlanning':

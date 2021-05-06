@@ -41,7 +41,6 @@
                 $telFixe = $unBeneficiaire['telFixe'];
                 $dateAdher = $unBeneficiaire['dateAdher'];
                 $cat = $unBeneficiaire['idCategorie'];
-                var_dump($cat);
                 ?>
             
                 <tr>
@@ -59,9 +58,9 @@
                             foreach ($lesCategories as $uneCat) {
                                 $id = $uneCat['id'];
                                 $libelle = $uneCat['libelle'];
-                                if ($uneCat == $cat) {
+                                if ($id == $cat) {
                                     ?>
-                                    <option selected value="<?php echo $uneCat ?>">
+                                    <option selected value="<?php echo $id ?>">
                                         <?php echo $libelle ?> </option>
                                     <?php
                                 } else {
